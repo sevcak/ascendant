@@ -173,7 +173,7 @@ AAPI void platform_shutdown(platform_state *plat_state)
     internal_state *state = (internal_state *)plat_state->internal_state;
 
     // Turn key repeats back on since this is global for the OS.
-    XAutoRepeatOff(state->display);
+    XAutoRepeatOn(state->display);
 
     xcb_destroy_window(state->connection, state->window);
 }
