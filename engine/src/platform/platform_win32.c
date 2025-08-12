@@ -18,7 +18,7 @@ typedef struct internal_state {
 static f64 clock_frequency;
 static LARGE_INTEGER start_time;
 
-LRESULT CALLBACK win32_process_message(hwnd, u32 msg, WPARAM w_param, LPARAM l_param);
+LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARAM l_param);
 
 b8 platform_startup(
     platform_state *plat_state,
@@ -49,7 +49,7 @@ b8 platform_startup(
     };
 
     if (!RegisterClassA(&wc)) {
-        MessageBoxA(0, "Window registration failed.", "Error", MB_ICONECLAMATION | MB_OK);
+        MessageBoxA(0, "Window registration failed.", "Error", MB_ICONEXCLAMATION | MB_OK);
         return FALSE;
     }
 
@@ -62,7 +62,7 @@ b8 platform_startup(
     u32 window_x = client_x;
     u32 window_y = client_y;
     u32 window_width = client_width;
-    u32 window_height = client_height
+    u32 window_height = client_height;
 
     u32 window_style = WS_OVERLAPPED | WS_SYSMENU | WS_CAPTION;
     u32 window_ex_style = WS_EX_APPWINDOW;
@@ -97,14 +97,14 @@ b8 platform_startup(
     b32 should_activate = 1; // TODO: If the window should not accept input, this should be false.
     // If initially minimized, use SW_MINIMIZE : SW_SHOWMINNOACTIVE
     // If initially maximized, use SW_SHOWMAXIMIZED : SW_MAXIMIZE
-    i32 show_window_command_flags = should_activate ? SW_SHOW : SW_SHOWONACTIVATE;
+    i32 show_window_command_flags = should_activate ? SW_SHOW : SW_SHOWNOACTIVATE;
     ShowWindow(state->hwnd, show_window_command_flags);
 
     // Setup the clock.
     LARGE_INTEGER frequency;
-    QuetyPerformanceFrequency(&frequency);
+    QueryPerformanceFrequency(&frequency);
     clock_frequency = 1.0 / (f64)frequency.QuadPart;
-    QueryPerformanceCounter(&start_time):
+    QueryPerformanceCounter(&start_time);
 
     return TRUE;
 }
@@ -114,7 +114,7 @@ void platform_shutdown(platform_state *plat_state)
     // Simpliy cold-cast to the known type.
     internal_state *state = (internal_state *)plat_state->internal_state;
 
-    if (state->hwdn) {
+    if (state->hwnd) {
         DestroyWindow(state->hwnd);
         state->hwnd = 0;
     }

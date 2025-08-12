@@ -34,8 +34,7 @@ void log_output(log_level level, const char *message, ...)
 
     b8 is_error = level < LOG_LEVEL_WARN;
 
-    const i32 msg_length = 32000;
-    char out_message[msg_length] = { 0 };
+    char out_message[32000] = { 0 };
 
     // Format original message.
     __builtin_va_list arg_ptr;
