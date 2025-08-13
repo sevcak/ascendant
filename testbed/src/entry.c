@@ -2,6 +2,8 @@
 
 #include <entry.h>
 
+#include <core/amemory.h>
+
 // TODO: Remove this.
 #include <platform/platform.h>
 
@@ -26,7 +28,7 @@ b8 create_game(game *out_game)
 
     // Create the game state.
     // TODO: Check allocation success and eventually free this memory.
-    out_game->state = platform_allocate(sizeof(game_state), FALSE);
+    out_game->state = aallocate(sizeof(game_state), MEMORY_TAG_GAME);
 
     return TRUE;
 }
