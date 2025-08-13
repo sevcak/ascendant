@@ -48,7 +48,8 @@ AAPI b8 platform_startup(
     state->display = XOpenDisplay(NULL);
 
     // Turn off key repeats.
-    XAutoRepeatOff(state->display);
+    // TODO: Set to off later when the game loop properly ends.
+    XAutoRepeatOn(state->display);
 
     // Retrieve the connection from the display.
     state->connection = XGetXCBConnection(state->display);
